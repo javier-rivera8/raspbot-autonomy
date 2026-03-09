@@ -1,4 +1,4 @@
-#!/bin/bash
+ls#!/bin/bash
 xhost +
 docker run -it \
 --privileged=true \

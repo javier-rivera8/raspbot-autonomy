@@ -8,6 +8,7 @@ docker run -it \
 -v /tmp/.X11-unix:/tmp/.X11-unix \
 --security-opt apparmor:unconfined \
 -v /home/pi/temp:/root/temp \
+-v /home/pi/raspbot-autonomy/ros2_ws:/root/ros2_ws \
 -v /dev/i2c-1:/dev/i2c-1 \
 -v /dev/i2c-0:/dev/i2c-0 \
 --device=/dev/video0 \

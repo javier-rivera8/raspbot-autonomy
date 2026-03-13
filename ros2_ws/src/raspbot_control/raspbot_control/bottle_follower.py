@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Image
-from cv_bridge import CvBridge
+import numpy as np
 import cv2
 from ultralytics import YOLO
 
@@ -27,18 +27,22 @@ class BottleFollower(Node):
             10,
         )
 
-        self.bridge = CvBridge()
         self.model = YOLO('yolov8n.pt')   # downloads automatically on first run
 
         self._bottle_detected = False
         self.get_logger().info('BottleFollower started — waiting for /image_raw')
 
     def image_callback(self, msg: Image):
-        # Convert ROS Image to OpenCV BGR
+        # Convert ROS Image to OpenCV BGR (without cv_bridge to avoid NumPy ABI issues)
         try:
-            frame = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+            frame = np.frombuffer(msg.data, dtype=np.uint8).reshape(
+                msg.height, msg.width, -1
+            )
+            # If encoding is RGB, convert to BGR for OpenCV
+            if 'rgb' in msg.encoding.lower():
+                frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
         except Exception as e:
-            self.get_logger().error(f'cv_bridge conversion failed: {e}')
+            self.get_logger().error(f'Image conversion failed: {e}')
             return
 
         results = self.model(frame, verbose=False)

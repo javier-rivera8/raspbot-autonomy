@@ -14,4 +14,12 @@ docker run -it \
 --device=/dev/video0 \
 --device=/dev/video1 \
 --device=/dev/gpiomem \
-yahboomtechnology/ros-humble:0.1.0 /bin/bash
+-v /home/pi/raspbot-autonomy/docker/entrypoint.sh:/root/entrypoint.sh 
+yahboomtechnology/ros-humble:0.1.0 /bin/bash -c "
+    apt-get update -qq &&
+    apt-get install -y python3-pip &&
+    python3 -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu &&
+    python3 -m pip install ultralytics opencv-python-headless &&
+    chmod +x /root/entrypoint.sh &&
+    exec /root/entrypoint.sh
+  "

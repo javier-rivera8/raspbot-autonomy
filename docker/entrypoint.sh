@@ -29,7 +29,7 @@ echo "============================================"
 # Common names: yahboomcar_bringup, raspbot_bringup
 # If yours is a launch file:   ros2 launch <pkg> <file>.launch.py
 # If yours is a node:          ros2 run <pkg> <node>
-ros2 launch yahboomcar_bringup bringup.launch &
+ros2 launch yahboomcar_bringup bringup.launch.py &
 BRINGUP_PID=$!
 echo "[entrypoint] Bringup started (PID $BRINGUP_PID)"
 

@@ -1,10 +1,6 @@
 #!/bin/bash
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 WORKSPACE_DIR="/home/pi/raspbot-autonomy/ros2_ws"
-IMAGE_NAME="raspbot-ros2-robot"
-
-# Build the image once using the local base image (no re-download)
-docker build --pull=never -t "$IMAGE_NAME" -f "$SCRIPT_DIR/Dockerfile.robot" "$SCRIPT_DIR"
 
 xhost +
 docker run -it \
@@ -22,4 +18,7 @@ docker run -it \
   --device=/dev/video1 \
   --device=/dev/gpiomem \
   -v "$SCRIPT_DIR/entrypoint.sh":/root/entrypoint.sh \
-  "$IMAGE_NAME"
+  yahboomtechnology/ros-humble:0.1.0 /bin/bash -c "
+    chmod +x /root/entrypoint.sh &&
+    exec /root/entrypoint.sh
+  "

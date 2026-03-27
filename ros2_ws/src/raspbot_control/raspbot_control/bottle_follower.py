@@ -30,7 +30,7 @@ class BottleFollower(Node):
         self.model = YOLO('yolov8n.pt')   # downloads automatically on first run
 
         self._bottle_detected = False
-        self.get_logger().info('BottleFollower started — waiting for /image_raw')
+        self.get_logger().info('BottleFollower started — waiting for /image_raw ')
 
     def image_callback(self, msg: Image):
         # Convert ROS Image to OpenCV BGR (without cv_bridge to avoid NumPy ABI issues)

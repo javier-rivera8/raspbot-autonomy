@@ -15,6 +15,12 @@ if [ -d /root/ros2_ws/src ]; then
   source /root/ros2_ws/install/setup.bash
 fi
 
+# Make ROS available in every future `docker exec` shell
+grep -qxF 'source /opt/ros/humble/setup.bash' /root/.bashrc || \
+  echo 'source /opt/ros/humble/setup.bash' >> /root/.bashrc
+grep -qxF 'source /root/ros2_ws/install/setup.bash' /root/.bashrc || \
+  echo '[ -f /root/ros2_ws/install/setup.bash ] && source /root/ros2_ws/install/setup.bash' >> /root/.bashrc
+
 echo "============================================"
 echo "  Launching bringup + camera in background"
 echo "============================================"

@@ -22,6 +22,7 @@ setup(
         'console_scripts': [
             'controller = raspbot_control.controller:main',
             'bottle_follower = raspbot_control.bottle_follower:main',
+            'image_publisher = raspbot_control.image_publisher:main',
         ],
     },
 )
